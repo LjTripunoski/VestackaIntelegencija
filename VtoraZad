@@ -1,0 +1,24 @@
+from constraint import *
+
+if __name__ == "__main__":
+
+    variables = range(0,16)
+    domain = range(1, 5)
+    problem = Problem()
+    variables = list(variables)
+    domain = list(domain)
+    problem.addVariables(variables, domain)
+    for row in range(0, 4):
+        problem.addConstraint(AllDifferentConstraint(), [row * 4 + i for i in range(0, 4)])
+
+    for column in range(0, 4):
+        problem.addConstraint(AllDifferentConstraint(), [column + 4 * i for i in range(0, 4)])
+    problem.addConstraint(lambda k1, k2: k1 == 1 and k2 ==4, (variables[12], variables[15]))
+    problem.addConstraint(lambda k1, k2: k1 < k2, (variables[0], variables[4]))
+    problem.addConstraint(lambda k1, k2: k1 < k2, (variables[4], variables[8]))
+    problem.addConstraint(lambda k1, k2: k1 > k2, (variables[3], variables[7]))
+    problem.addConstraint(lambda k1, k2: k1 < k2, (variables[7], variables[11]))
+    problem.addConstraint(lambda k1, k2: k1 < k2, (variables[9], variables[10]))
+    result = problem.getSolution()
+    print(result)
+
